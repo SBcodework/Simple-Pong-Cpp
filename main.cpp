@@ -56,6 +56,9 @@ namespace C // Constants
     Uint32 windowFlags = SDL_WINDOW_SHOWN;
     Uint32 rendererFlags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
 
+    Uint8 bgColors[] {0,0,0,255};
+    Uint8 gameObjectColors[] {255,0,0,255};
+
     SDL_Keycode leftPaddleKeys[2] {SDLK_q, SDLK_a};
     SDL_Keycode rightPaddleKeys[2] {SDLK_o, SDLK_l};
 
@@ -73,6 +76,25 @@ namespace C // Constants
     int ballDim[4] {(windowW/2) - (ballW/2), (windowH/2) - (ballW/2), ballW, ballW};
 
     int bounceBoundaryDim[4] {paddlePadding + paddleW, 0, windowW - (2*(paddlePadding - paddleW))};  // If the ball is inside this box, it is not in the goal.
+}
+
+void displayUpdateRects(SDL_Renderer* renderer, SDL_Rect** rects, int number)
+{
+    Uint8* bg = C::bgColors;
+    Uint8* boxColor = C::gameObjectColors;
+
+    SDL_SetRenderDrawColor(renderer, bg[0], bg[1], bg[2], bg[3]);
+    SDL_RenderClear(renderer);
+
+    SDL_SetRenderDrawColor(renderer, boxColor[0], boxColor[1], boxColor[2], boxColor[3]);
+
+    for (int i = 0; i < number; i++)
+    {
+        SDL_RenderDrawRect(renderer, rects[i]);
+    }
+
+    SDL_RenderPresent(renderer);
+    return;
 }
 
 bool errorPresent()
@@ -284,6 +306,7 @@ int main(int argc, char* args[])
     /// Custom features here
 
     SDL_Rect leftPaddleRect, ballRect, rightPaddleRect;
+    SDL_Rect* allResourceRects[3] {&leftPaddleRect,& ballRect, &rightPaddleRect};
 
     initRect(C::leftPaddleDim, &leftPaddleRect);
     initRect(C::ballDim, &ballRect);
@@ -307,17 +330,7 @@ int main(int argc, char* args[])
     SDL_Keycode ekey = 0;
     bool stopApp = false;
 
-    ///Give players time to wait, copy paste code below, re-factor
-
-    SDL_SetRenderDrawColor(rendererObj, 0,0,0,255);
-    SDL_RenderClear(rendererObj);
-
-    SDL_SetRenderDrawColor(rendererObj, 255,0,0,255);
-    SDL_RenderDrawRect(rendererObj, &leftPaddleRect);
-    SDL_RenderDrawRect(rendererObj, &rightPaddleRect);
-    SDL_RenderDrawRect(rendererObj, &ballRect);
-
-    SDL_RenderPresent(rendererObj);
+    displayUpdateRects(rendererObj, allResourceRects, 3);
 
     for(int i = 0; i < 5; i++)
     {
@@ -395,15 +408,7 @@ int main(int argc, char* args[])
             std::cout << "SCORE: " << leftScore << " VS " << rightScore << "\n";
         }
 
-        SDL_SetRenderDrawColor(rendererObj, 0,0,0,255);
-        SDL_RenderClear(rendererObj);
-
-        SDL_SetRenderDrawColor(rendererObj, 255,0,0,255);
-        SDL_RenderDrawRect(rendererObj, &leftPaddleRect);
-        SDL_RenderDrawRect(rendererObj, &rightPaddleRect);
-        SDL_RenderDrawRect(rendererObj, &ballRect);
-
-        SDL_RenderPresent(rendererObj);
+        displayUpdateRects(rendererObj, allResourceRects, 3);
 
     }
     return 0;
