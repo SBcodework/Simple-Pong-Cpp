@@ -17,7 +17,7 @@ Next steps: improve readability and restructure the project so that it is eaiser
 
  # 1.1 Refactor (Current)
   Started 8/28/19: 
-  Refactor the project so that it is easier to read and adpots good practices.
+ Refactor the project so that it is easier to read and adpots good practices.
  
  # 1.2 Testing
  Adpot a testing methodology so that the game can be tested, test the game, and resolve test cases. Move forward once tests are satisfied.
