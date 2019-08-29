@@ -16,7 +16,7 @@ Next steps: improve readability and restructure the project so that it is eaiser
 # Developing branch goals:
 
  # 1.1 Refactor (Current)
-  8/28/19
+  8/28/19:
 Refactor the project so that it is easier to read and adpots good practices.
  
  # 1.2 Testing
