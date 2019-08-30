@@ -28,24 +28,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <time.h>
 
 #include "Constants.h"
-
-void initRect(int x, int y, int w, int h, SDL_Rect* output)
-{
-    output->x = x;
-    output->y = y;
-    output->w = w;
-    output->h = h;
-    return;
-}
-
-void initRect(int* dimensions, SDL_Rect* output)
-{
-    output->x = dimensions[0];
-    output->y = dimensions[1];
-    output->w = dimensions[2];
-    output->h = dimensions[3];
-    return;
-}
+#include "NonWindowUtilities.h"
 
 void displayUpdateRects(SDL_Renderer* renderer, SDL_Rect** rects, int number)
 {
