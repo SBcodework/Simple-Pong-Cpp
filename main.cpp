@@ -29,44 +29,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "Constants.h"
 #include "NonWindowUtilities.h"
-
-void displayUpdateRects(SDL_Renderer* renderer, SDL_Rect** rects, int number)
-{
-    Uint8* bg = C::bgColors;
-    Uint8* boxColor = C::gameObjectColors;
-
-    SDL_SetRenderDrawColor(renderer, bg[0], bg[1], bg[2], bg[3]);
-    SDL_RenderClear(renderer);
-
-    SDL_SetRenderDrawColor(renderer, boxColor[0], boxColor[1], boxColor[2], boxColor[3]);
-
-    for (int i = 0; i < number; i++)
-    {
-        SDL_RenderDrawRect(renderer, rects[i]);
-    }
-
-    SDL_RenderPresent(renderer);
-    return;
-}
-
-bool errorPresent()
-{
-    const char* msg = SDL_GetError();
-    if (msg[0] == '\0')
-    {
-        return false;
-    }
-
-    std::cout << "Error: " << msg << "\n";
-    return true;
-}
-
-void quit(SDL_Window* win, SDL_Renderer* renderer)
-{
-    SDL_DestroyWindow(win);
-    SDL_DestroyRenderer(renderer);
-    return;
-}
+#include "WindowAndDisplay.h"
 
 int moveAxisWithinBounds(int pos, int minimum, int maximum, int speed)
 {
@@ -282,12 +245,25 @@ int main(int argc, char* args[])
     SDL_Keycode ekey = 0;
     bool stopApp = false;
 
-    displayUpdateRects(rendererObj, allResourceRects, 3);
+    renderPresentRects(rendererObj, allResourceRects, 3);
 
     for(int i = 0; i < 5; i++)
     {
         std::cout << (5 - i) << "...\n";
-        SDL_Delay(1000);
+
+        for(int n = 0; n < 10; n++)
+        {
+            while(SDL_PollEvent(&e));  // Start a mini-event loop so we can quit when counting down
+            {
+                if (e.type == SDL_QUIT || (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE))
+                {
+                    quit(windowObj, rendererObj);
+                    return 0;
+                }
+            }
+
+            SDL_Delay(100);  // Lower the delay so quiting can happen sooner, which is why above for loop is needed
+        }
     }
     std::cout << "GO!\n";
 
@@ -360,7 +336,7 @@ int main(int argc, char* args[])
             std::cout << "SCORE: " << leftScore << " VS " << rightScore << "\n";
         }
 
-        displayUpdateRects(rendererObj, allResourceRects, 3);
+        renderPresentRects(rendererObj, allResourceRects, 3);
 
     }
     return 0;
