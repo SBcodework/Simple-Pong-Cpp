@@ -1,3 +1,9 @@
+/**
+A BSD 2-Clause License is in use here. See LICENSE.md for license information.
+Copyright (c) 2019, SBcodework
+All rights reserved.
+**/
+
 #include "GraphicsContext.h"
 
 GraphicsContext::GraphicsContext()
