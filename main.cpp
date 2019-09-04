@@ -31,145 +31,21 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "NonWindowUtilities.h"
 #include "WindowAndDisplay.h"
 #include "MoveHandling.h"
+#include "GraphicsContext.h"
+#include "GameContext.h"
 
 int main(int argc, char* args[])
 {
-    SDL_Init(SDL_INIT_EVERYTHING);
-
-    SDL_Window* windowObj = SDL_CreateWindow(C::title, C::windowX, C::windowY, C::windowW, C::windowH, C::windowFlags);
-    SDL_Renderer* rendererObj = SDL_CreateRenderer(windowObj, -1, C::rendererFlags);
+    GraphicsContext graphicsContext;
 
     if (errorPresent())
     {
-        quit(windowObj, rendererObj);
         return 1;
     }
 
-    // Clear screen with draw color
-    SDL_SetRenderDrawColor(rendererObj, 0,0,0,255);
-    SDL_RenderClear(rendererObj);
-    SDL_RenderPresent(rendererObj);
+    GameContext gameContext(&graphicsContext);
 
-    /// Custom features here
+    int state = gameContext.mainLoop();
 
-    SDL_Rect leftPaddleRect, ballRect, rightPaddleRect;
-    SDL_Rect* allResourceRects[3] {&leftPaddleRect,& ballRect, &rightPaddleRect};
-
-    initRect(C::leftPaddleDim, &leftPaddleRect);
-    initRect(C::ballDim, &ballRect);
-    initRect(C::rightPaddleDim, &rightPaddleRect);
-
-    bool leftPaddleKeyPresses[2] = {false, false};  // Up, down
-    bool rightPaddleKeyPresses[2] = {false, false};
-
-    //Pre-loop
-
-    srand(time(0));
-    int ballDir = rand() % 4;  /// 0-1: Top, 2-3: bottom; even: left, odd: right. Example: 1 is top-left, 3 is bottom-right.
-    int scored = 0;
-    int leftScore = 0;
-    int rightScore = 0;
-
-    /// ====================
-
-    SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
-    SDL_Event e;
-    SDL_Keycode ekey = 0;
-    bool stopApp = false;
-
-    renderPresentRects(rendererObj, allResourceRects, 3);
-
-    for(int i = 0; i < 5; i++)
-    {
-        std::cout << (5 - i) << "...\n";
-
-        for(int n = 0; n < 10; n++)
-        {
-            while(SDL_PollEvent(&e));  // Start a mini-event loop so we can quit when counting down
-            {
-                if (e.type == SDL_QUIT || (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE))
-                {
-                    quit(windowObj, rendererObj);
-                    return 0;
-                }
-            }
-
-            SDL_Delay(100);  // Lower the delay so quiting can happen sooner, which is why above for loop is needed
-        }
-    }
-    std::cout << "GO!\n";
-
-    while(!stopApp)
-    {
-
-        if (errorPresent())
-        {
-            quit(windowObj, rendererObj);
-            return 1;
-        }
-
-        for(Uint32 etype; SDL_PollEvent(&e); )
-        {
-            etype = e.type;
-
-            if (etype == SDL_QUIT || (etype == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE))
-            {
-                quit(windowObj, rendererObj);
-                return 0;
-            }
-
-            if (etype == SDL_KEYDOWN && e.key.repeat == SDL_FALSE)  /// Re-factor later, remove nested ifs
-            {
-                ekey = e.key.keysym.sym;
-                for(int i = 0; i<2; i++)
-                {
-                    leftPaddleKeyPresses[i] = (ekey == C::leftPaddleKeys[i] ? true : leftPaddleKeyPresses[i]);
-                    rightPaddleKeyPresses[i] = (ekey == C::rightPaddleKeys[i] ? true : rightPaddleKeyPresses[i]);
-                }
-            }
-
-            if (etype == SDL_KEYUP && e.key.repeat == SDL_FALSE)
-            {
-                ekey = e.key.keysym.sym;
-                for(int i = 0; i<2; i++)
-                {
-                    leftPaddleKeyPresses[i] = (ekey == C::leftPaddleKeys[i] ? false : leftPaddleKeyPresses[i]);
-                    rightPaddleKeyPresses[i] = (ekey == C::rightPaddleKeys[i] ? false : rightPaddleKeyPresses[i]);
-                }
-            }
-
-        }
-
-        for (int i = 0; i < 2; i++)
-        {
-            if (leftPaddleKeyPresses[i])
-            {
-                paddleMoveHandler(!((bool)i), &leftPaddleRect);
-            }
-            if (rightPaddleKeyPresses[i])
-            {
-                paddleMoveHandler(!((bool)i), &rightPaddleRect);
-            }
-        }
-
-        scored = ballMoveHandler(&ballDir, &ballRect, &leftPaddleRect, &rightPaddleRect);
-        if (scored == 1)
-        {
-            rightScore++;
-            std::cout << " Right Scored!\n";
-        }
-        if (scored == 2)
-        {
-            leftScore++;
-            std::cout << " Left Scored!\n";
-        }
-        if(scored)
-        {
-            std::cout << "SCORE: " << leftScore << " VS " << rightScore << "\n";
-        }
-
-        renderPresentRects(rendererObj, allResourceRects, 3);
-
-    }
-    return 0;
+    return state;
 }

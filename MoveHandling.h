@@ -11,22 +11,10 @@ All rights reserved.
 #include "Constants.h"
 #include "NonWindowUtilities.h"
 
-/// Returns "speed" + "pos", which represents motion along one axis. If the final position is beyond a limit, min or max, the function
-/// returns the nearest limit.
-/// Units are in pixels, and pixels/frame for speed.
-int moveAxisWithinBounds(int pos, int minimum, int maximum, int speed);
-
-/// See above. If a limit (side) is hit, "sideA" or "sideB" is set to true, where "sideA" represents the minimum limit's side.
-/// ExcessDisplacement is a measure of how much the ball is beyond a limit if it is. If it is within bounds, it is not changed.
-int moveAxisWithinBounds(int pos, int minimum, int maximum, int speed, bool* sideA, bool* sideB, int* excessDisplacement);
-
-/// Uses the above function(s) to simulate collision motion with a boundary.
-/// Collision only occurs when "obj" is not fully contained by "boundary".
-/// Int units are in pixels/frame.
-void moveWithinBounds(int Xspeed, int Yspeed, SDL_Rect* obj, SDL_Rect* boundary);
-
-/// See above. "HitSides" indexing is top to bottom, left to right. Top is 0, left is 1, right is 2, bottom is 3.
-void moveWithinBounds(int Xspeed, int Yspeed, SDL_Rect* obj, SDL_Rect* boundary, bool hitSides[4], int excessDisplacements[2]);
+/// Returns the position of a point with a given speed. If it is beyond a limit, it is set to that limit.
+/// Optional SideHit parameters available to check what side was hit.
+int moveUpToLimit(int pos, int min, int max, int speed,
+                  bool* negSideHit = nullptr, bool* posSideHit = nullptr);
 
 /// Receives a direction and the paddle's rectangle. This should be called per frame, except when the paddle is idle.
 void paddleMoveHandler(bool isUp, SDL_Rect* rect);

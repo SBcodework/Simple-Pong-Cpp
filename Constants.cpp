@@ -20,8 +20,8 @@ namespace C// Constants
     Uint8 bgColors[] {0,0,0,255};
     Uint8 gameObjectColors[] {255,0,0,255};
 
-    SDL_Keycode leftPaddleKeys[2] {SDLK_q, SDLK_a};
-    SDL_Keycode rightPaddleKeys[2] {SDLK_o, SDLK_l};
+    SDL_Scancode leftPaddleKeys[2] {SDL_SCANCODE_Q, SDL_SCANCODE_A};
+    SDL_Scancode rightPaddleKeys[2] {SDL_SCANCODE_O, SDL_SCANCODE_L};
 
     // May be calculated from previous constants
     int paddlePadding = 50;

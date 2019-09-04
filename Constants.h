@@ -23,8 +23,8 @@ namespace C
      extern Uint8 bgColors[];
      extern Uint8 gameObjectColors[];
 
-     extern SDL_Keycode leftPaddleKeys[2];
-     extern SDL_Keycode rightPaddleKeys[2];
+     extern SDL_Scancode leftPaddleKeys[2];
+     extern SDL_Scancode rightPaddleKeys[2];
 
     // May be calculated from previous constants
      extern int paddlePadding;

@@ -20,6 +20,9 @@ bool errorPresent();
 /// Destroys the win and renderer objects.
 void quit(SDL_Window* win, SDL_Renderer* renderer);
 
+bool eventCheck(Uint32 event);
 
+int FILTER_stop(void* userdata, SDL_Event* event);
+int FILTER_paddles(void* userdata, SDL_Event* event);
 
 #endif // WINDOWANDDISPLAY_H_INCLUDED
