@@ -5,6 +5,7 @@ All rights reserved.
 **/
 
 #include "MoveHandling.h"
+#include <iostream>
 
 int moveUpToLimit(int pos, int min, int max, int speed,
                    bool* negSideHit, bool* posSideHit)
@@ -45,31 +46,20 @@ int ballMoveHandler(int* direction, SDL_Rect* ballrect, SDL_Rect* leftPaddleRect
     ballrect->y = movedY;
 
     int whoScored = 0;
-    bool wasHit = false;
-
-    int directionXisNeg = *direction < 2;    // Calculate direction by separating it into components, modifying them, and combining them
-    int directionYisNeg = !(*direction % 2);
 
     if (hitSides[0] || hitSides[3])  // Bounce the ball by reversing the direction components once their axis is hit
     {
-        directionYisNeg = !directionYisNeg;
-        wasHit = true;
+        *direction += hitSides[0] ? 2 : -2;
     }
 
     if (hitSides[1] || hitSides[2])
     {
-        directionXisNeg = !directionXisNeg;
+        *direction += hitSides[1] ? 1 : -1;
         SDL_Rect ballCollisionBox;  // The ball's collision box is one pixel bigger to support collision checking
         initRect(ballrect->x -1, ballrect->y -1, ballrect->w + 2, ballrect->h + 2, &ballCollisionBox);
 
         whoScored = ( hitSides[2] && !SDL_HasIntersection(rightPaddleRect, &ballCollisionBox)) ? 2 : whoScored;
         whoScored = ( hitSides[1] && !SDL_HasIntersection(leftPaddleRect, &ballCollisionBox)) ? 1 : whoScored;
-        wasHit = true;
-    }
-
-    if (wasHit)
-    {
-        *direction = (2*directionXisNeg) + directionYisNeg;
     }
 
     return whoScored;

@@ -6,17 +6,23 @@ All rights reserved.
 
 #include "GameContext.h"
 
+// Watch this method in case it gets too long or complex
 GameContext::GameContext(GraphicsContext* graphicsContext_)
 {
     graphicsContext = graphicsContext_;
+    windowObj = graphicsContext->windowObj;
+    rendererObj = graphicsContext->rendererObj;
+
+    /// Non-SDL Init
+    srand(time(0));
+
+    /// Init rects/textures/images
+
     initRect(C::leftPaddleDim, &leftPaddleRect);
     initRect(C::ballDim, &ballRect);
     initRect(C::rightPaddleDim, &rightPaddleRect);
 
-    windowObj = graphicsContext->windowObj;
-    rendererObj = graphicsContext->rendererObj;
-
-    srand(time(0));
+    /// Game coniguration and events init
 
     ballDir = rand() % 4;  /// 0-1: Top, 2-3: bottom; even: left, odd: right. Example: 1 is top-left, 3 is bottom-right.
 
