@@ -19,8 +19,6 @@ Simple-Pong-Cpp is my first working, event-driven game. It is basic, clocks in w
 
 To build the game, you'll need the SDL 2.0 graphics libary and the appropiate build options listed by Lazy Foo Productions on "http://lazyfoo.net/tutorials/SDL/01_hello_SDL/index.php".
 
-Next steps: improve readability and restructure the project so that it is eaiser to understand. Do not add any features that noticablly modify the game experience. 
-
 # Developing branch goals:
 
  # 1.1 Refactor (Current)
