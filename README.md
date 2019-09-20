@@ -1,5 +1,5 @@
 # Simple-Pong-Cpp
-A pong game built using SDL and C++.
+A pong game built using SDL and C++. The most updated version is availble on the "Version-1.1-Refactor" branch.
 
 # Master branch Changelog:
 
