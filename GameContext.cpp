@@ -18,9 +18,9 @@ GameContext::GameContext(GraphicsContext* graphicsContext_)
 
     /// Init rects/textures/images
 
-    initRect(C::leftPaddleDim, &leftPaddleRect);
-    initRect(C::ballDim, &ballRect);
-    initRect(C::rightPaddleDim, &rightPaddleRect);
+    leftPaddleRect.setter(C::leftPaddleDim);
+    ballRect.setter(C::ballDim);
+    rightPaddleRect.setter(C::rightPaddleDim);
 
     /// Game coniguration and events init
 
@@ -33,15 +33,31 @@ GameContext::GameContext(GraphicsContext* graphicsContext_)
 
     SDL_AddEventWatch(FILTER_stop, this);
 
-    renderPresentRects(rendererObj, allResourceRects, 3);
+    // Set up allResourceSDLrects to contain the SDL_Rect* members of our Recf resources
+    for(int i = 0; i < allResourceRects_size; i++)
+    {
+        allResourceSDLrects[i] = allResourceRects[i]->toSDL();
+    }
+
+    updateAllRectf();
+    renderPresentRects(rendererObj, allResourceSDLrects, 3);
 
     countDown();
     SDL_AddEventWatch(FILTER_paddles, this);
 }
 
+// These are going to be assigned values in the constructor.
+// This is here to avoid undefined behavior.
 Uint32 GameContext::EVENT_FRAME_BEGIN = 0;
 Uint32 GameContext::EVENT_FRAME_END = 0;
-Uint32 GameContext::EVENT_SCORE = 0;
+
+void GameContext::updateAllRectf()
+{
+    for(int i = 0; i < allResourceRects_size; i++)
+    {
+        allResourceRects[i]->updateSDL();
+    }
+}
 
 void GameContext::countDown()
 {
@@ -72,7 +88,7 @@ int GameContext::mainLoop()
             return 1;
         }
 
-        SDL_PumpEvents();
+        SDL_PumpEvents();  // Update the event queue.
 
         kbStates = SDL_GetKeyboardState(0);
         mouseState = SDL_GetMouseState(&mouseX, &mouseY);
@@ -81,7 +97,7 @@ int GameContext::mainLoop()
 
         /// Insert additional event handling code here
 
-        SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);
+        SDL_FlushEvents(SDL_FIRSTEVENT, SDL_LASTEVENT);  // Clear all events, needed to stop the queue from overflowing.
 
         /// Insert handlers here
 
@@ -92,7 +108,8 @@ int GameContext::mainLoop()
             return 0;
         }
 
-        renderPresentRects(rendererObj, allResourceRects, 3);
+        updateAllRectf();
+        renderPresentRects(rendererObj, allResourceSDLrects, 3);
 
         pushBlankEvent(EVENT_FRAME_END);
     }

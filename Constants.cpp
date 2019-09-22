@@ -6,35 +6,38 @@ All rights reserved.
 
 #include "Constants.h"
 
-namespace C// Constants
+namespace C  // Constants.
 {
     char title[] {"Pong!"};
-    int windowX = SDL_WINDOWPOS_UNDEFINED;
-    int windowY = SDL_WINDOWPOS_UNDEFINED;
-    int windowW = 1200;
-    int windowH = 800;
-    int FPS = 60;
+
+    // Below values should be whole numbers, but they are floats for convience to avoid excessive type casting.
+    float windowX = SDL_WINDOWPOS_UNDEFINED;
+    float windowY = SDL_WINDOWPOS_UNDEFINED;
+    float windowW = 900.f;
+    float windowH = 630.f;
+    float FPS = 60.f;  // Frames per second.
     Uint32 windowFlags = SDL_WINDOW_SHOWN;
     Uint32 rendererFlags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
 
-    Uint8 bgColors[] {0,0,0,255};
+    Uint8 bgColors[] {0,0,0,255};  // Format: R, G, B, Alpha (Transparency) value. Alpha of 255 is solid, 0 is invisible.
     Uint8 gameObjectColors[] {255,0,0,255};
 
     SDL_Scancode leftPaddleKeys[2] {SDL_SCANCODE_Q, SDL_SCANCODE_A};
     SDL_Scancode rightPaddleKeys[2] {SDL_SCANCODE_O, SDL_SCANCODE_L};
 
     // May be calculated from previous constants
-    int paddlePadding = 50;
-    int paddleH = 200;
-    int paddleW = 50;
-    int paddleY = (windowH/2) - (paddleH/2);
-    int ballW = 50;
-    int ballPixPerSec = 600;  /// Note: ball bounce currently depends in FPS being divisible by 60 int division
-    int paddlePixPerSec = 1000;
+    float paddlePadding = 50.f;
+    float paddleH = 200.f;
+    float paddleW = 50.f;
+    float paddleY = (windowH/2.f) - (paddleH/2.f);
+    float ballW = 50.f;
+    float ballPixPerSec = 610.f;
+    float paddlePixPerSec = 1000.f;
 
-    int leftPaddleDim[4] {paddlePadding, paddleY, paddleW, paddleH}; // X,Y, W,H
-    int rightPaddleDim[4] {windowW - paddlePadding - paddleW, paddleY, paddleW, paddleH};
-    int ballDim[4] {(windowW/2) - (ballW/2), (windowH/2) - (ballW/2), ballW, ballW};
+    float leftPaddleDim[4] {paddlePadding, paddleY, paddleW, paddleH}; // X,Y, W,H
+    float rightPaddleDim[4] {windowW - paddlePadding - paddleW, paddleY, paddleW, paddleH};
+    float ballDim[4] {(windowW/2.f) - (ballW/2.f), (windowH/2.f) - (ballW/2.f), ballW, ballW};
 
-    int bounceBoundaryDim[4] {paddlePadding + paddleW, 0, windowW - (2*(paddlePadding - paddleW))};  // If the ball is inside this box, it is not in the goal.
+    // If the ball is inside this box, it is not in the goal.
+    float bounceBoundaryDim[4] {paddlePadding + paddleW, 0.f, windowW - (2.f*(paddlePadding - paddleW))};
 }

@@ -20,13 +20,32 @@ class GameContext
 {
     public:
         GameContext(GraphicsContext* graphicsContext_);
+
+        virtual ~GameContext();
+
+        void updateAllRectf();
+
+        // Pauses the game, and counts down to the console.
+        void countDown();
+
+        void pushBlankEvent(Uint32 type);
+
+        void handleScoring(int scoreCode);
+
+        int mainLoop();
+
+        /// --- Attributes --- ///
+
         GraphicsContext* graphicsContext = nullptr;
 
         SDL_Window* windowObj = nullptr;
         SDL_Renderer* rendererObj = nullptr;
 
-        SDL_Rect leftPaddleRect, ballRect, rightPaddleRect;
-        SDL_Rect* allResourceRects[3] {&leftPaddleRect, & ballRect, &rightPaddleRect};
+        Rectf leftPaddleRect, ballRect, rightPaddleRect;
+
+        static const int allResourceRects_size = 3;
+        Rectf* allResourceRects[allResourceRects_size] = {&leftPaddleRect, &ballRect, &rightPaddleRect};
+        SDL_Rect* allResourceSDLrects[allResourceRects_size];
 
         bool leftPaddleKeyPresses[2] = {false, false};  // Up, down
         bool rightPaddleKeyPresses[2] = {false, false};
@@ -36,22 +55,13 @@ class GameContext
         int scored = 0, leftScore = 0, rightScore = 0;
         int mouseX = 0, mouseY = 0;
 
+        /// kbStates stores the state of the keyboard.
         const Uint8* kbStates = nullptr;
         Uint32 mouseState = 0;
 
         static Uint32 EVENT_FRAME_BEGIN;
         static Uint32 EVENT_FRAME_END;
         static Uint32 EVENT_SCORE;
-
-
-        virtual ~GameContext();
-
-        void countDown();
-
-        void pushBlankEvent(Uint32 type);
-        void handleScoring(int scoreCode);
-
-        int mainLoop();
 
     protected:
 

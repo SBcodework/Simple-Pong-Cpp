@@ -12,11 +12,11 @@ All rights reserved.
 namespace C
 {
      extern char title[];
-     extern int windowX;
-     extern int windowY;
-     extern int windowW;
-     extern int windowH;
-     extern int FPS;
+     extern float windowX;
+     extern float windowY;
+     extern float windowW;
+     extern float windowH;
+     extern float FPS;
      extern Uint32 windowFlags;
      extern Uint32 rendererFlags;
 
@@ -27,19 +27,19 @@ namespace C
      extern SDL_Scancode rightPaddleKeys[2];
 
     // May be calculated from previous constants
-     extern int paddlePadding;
-     extern int paddleH;
-     extern int paddleW;
-     extern int paddleY;
-     extern int ballW;
-     extern int ballPixPerSec;  /// Note: ball bounce currently depends in FPS being divisible by 60 int division
-     extern int paddlePixPerSec;
+     extern float paddlePadding;
+     extern float paddleH;
+     extern float paddleW;
+     extern float paddleY;
+     extern float ballW;
+     extern float ballPixPerSec;  /// Note: ball bounce currently depends in FPS being divisible by 60 int division
+     extern float paddlePixPerSec;
 
-     extern int leftPaddleDim[4]; // X,Y, W,H
-     extern int rightPaddleDim[4];
-     extern int ballDim[4];
+     extern float leftPaddleDim[4]; // X,Y, W,H
+     extern float rightPaddleDim[4];
+     extern float ballDim[4];
 
-     extern int bounceBoundaryDim[4];  // If the ball is inside this box, it is not in the goal.
+     extern float bounceBoundaryDim[4];  // If the ball is inside this box, it is not in the goal.
 }
 
 #endif // CONSTANTS_H_INCLUDED
