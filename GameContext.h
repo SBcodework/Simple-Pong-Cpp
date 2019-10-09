@@ -14,8 +14,6 @@ All rights reserved.
 
 #include <time.h>
 
-//class GraphicsContext;
-
 class GameContext
 {
     public:

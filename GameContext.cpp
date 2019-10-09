@@ -28,12 +28,12 @@ GameContext::GameContext(GraphicsContext* graphicsContext_)
 
     SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
 
-    EVENT_FRAME_BEGIN = SDL_RegisterEvents(2);  //Allocates a set of user-defined events
+    EVENT_FRAME_BEGIN = SDL_RegisterEvents(2);  // Allocates a set of user-defined events
     EVENT_FRAME_END = EVENT_FRAME_BEGIN + 1;
 
     SDL_AddEventWatch(FILTER_stop, this);
 
-    // Set up allResourceSDLrects to contain the SDL_Rect* members of our Recf resources
+    // Set up allResourceSDLrects to contain the SDL_Rect* members of our Rectf resources
     for(int i = 0; i < allResourceRects_size; i++)
     {
         allResourceSDLrects[i] = allResourceRects[i]->toSDL();
