@@ -4,8 +4,8 @@ Copyright (c) 2019, SBcodework
 All rights reserved.
 **/
 
-#include "WindowAndDisplay.h"
-#include "GameContext.h"
+#include "../include/WindowAndDisplay.h"
+#include "../include/GameContext.h"
 
 void renderPresentRects(SDL_Renderer* renderer, SDL_Rect** rects, int number)
 {

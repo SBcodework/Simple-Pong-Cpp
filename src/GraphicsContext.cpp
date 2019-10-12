@@ -4,7 +4,7 @@ Copyright (c) 2019, SBcodework
 All rights reserved.
 **/
 
-#include "GraphicsContext.h"
+#include "../include/GraphicsContext.h"
 
 GraphicsContext::GraphicsContext()
 {

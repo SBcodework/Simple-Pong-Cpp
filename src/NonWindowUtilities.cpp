@@ -4,7 +4,7 @@ Copyright (c) 2019, SBcodework
 All rights reserved.
 **/
 
-#include "NonWindowUtilities.h"
+#include "../include/NonWindowUtilities.h"
 
 void initRect(int x, int y, int w, int h, SDL_Rect* output)
 {

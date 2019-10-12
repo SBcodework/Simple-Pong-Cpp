@@ -4,7 +4,7 @@ Copyright (c) 2019, SBcodework
 All rights reserved.
 **/
 
-#include "GameContext.h"
+#include "../include/GameContext.h"
 
 // Watch this method in case it gets too long or complex
 GameContext::GameContext(GraphicsContext* graphicsContext_)
